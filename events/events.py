@@ -119,6 +119,12 @@ def generate_ical_file(generator):
     if not ics_fname:
         return
 
+    if 'metadata_field_for_summary' in generator.settings['PLUGIN_EVENTS']:
+        metadata_field_for_event_summary = generator.settings['PLUGIN_EVENTS']['metadata_field_for_summary']
+
+    if not metadata_field_for_event_summary:
+        metadata_field_for_event_summary = 'summary'
+
     ics_fname = os.path.join(generator.settings['OUTPUT_PATH'], ics_fname)
     log.debug("Generating calendar at %s with %d events" % (ics_fname, len(events)))
 
@@ -134,7 +140,7 @@ def generate_ical_file(generator):
 
     for e in curr_events:
         ie = icalendar.Event(
-            summary=e.metadata['summary'],
+            summary=e.metadata[metadata_field_for_event_summary],
             dtstart=basic_isoformat(e.event_plugin_data["dtstart"]),
             dtend=basic_isoformat(e.event_plugin_data["dtend"]),
             dtstamp=basic_isoformat(e.metadata['date']),
