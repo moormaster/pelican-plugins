@@ -145,7 +145,7 @@ def generate_ical_file(generator):
             dtend=basic_isoformat(e.event_plugin_data["dtend"]),
             dtstamp=basic_isoformat(e.metadata['date']),
             priority=5,
-            uid=e.metadata['title'] + e.metadata['summary'],
+            uid=generator.settings['SITEURL'] + e.url,
         )
         if 'event-location' in e.metadata:
             ie.add('location', e.metadata['event-location'])
